@@ -1,0 +1,52 @@
+{% extends 'vkapp/base.html' %}
+{% block title %}Profile{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="col-md-5">
+                        {% for each in profile %}
+                            <img src="{{ each.photo_400_orig }}" alt=""><br>
+                            </div>
+                            <div class="col-md-5">
+                                <h2><strong>{{ each.first_name }} {{ each.last_name }}</strong></h2>
+                                <i><h3>{{ each.status }}</h3></i>
+                                <p><em>Стать:</em><strong> {{ each.sex }}</strong></p>
+                                <p><em>Дата народження:</em> <strong>{{ each.bdate }}</strong></p>
+                                <p><em>Рідне місто:</em> <strong>{{ each.home_town }}</strong></p>
+                                <p><em>Університет:</em> <strong>{{ each.occupation.name }}</strong></p>
+                                <p><em>Кількість фото:</em> <strong>{{ each.counters.photos }}</strong></p>
+                                <p><em>Кількість цікавих сторінок:</em> <strong>{{ each.counters.pages }}</strong></p>
+                                <p><em>Кількість друзів:</em> <strong>{{ each.counters.friends }}</strong></p>
+                                <p><em>Кількість друзів на сайті:</em> <strong>{{ each.counters.online_friends  }}</strong></p>
+                                <p><em>Кількість підписників:</em> <strong>{{ each.followers_count }}</strong></p>
+                            </div>
+                        {% endfor %}
+                </div>
+                <ul role="tabpanel" class="tab-pane" id="profile">
+                    {% for each in friends %}
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <img src="{{ each.photo_100 }}" alt="" class="inline">
+                                <span class="inline"><b><i>{{ each.first_name }} {{ each.last_name }}</i></b></span>
+                                <form action="{% url 'vkapp:result' %}" method="post">{% csrf_token %}
+                                    <br>
+                                    <button type="submit" name="user_id" class="btn btn-default"
+                                            value="{{ each.user_id }}">Профіль
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    {% endfor %}
+                </ul>
+                <div role="tabpanel" class="tab-pane" id="messages">
+                    {% for each in all_groups %}
+                        <img src="{{ each.photo_medium }}" alt=""><br>
+                        <p>{{ each.name }}</p>
+                    {% endfor %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="settings">...</div>
+            </div>
+        </div>
+{% endblock %}
